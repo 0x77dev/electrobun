@@ -9,6 +9,18 @@ export default {
 	},
 	runtime: {
 		// exitOnLastWindowClosed: false,
+		protocols: [
+			{
+				scheme: "electrobun-test",
+				privileges: {
+					standard: true,
+					secure: true,
+					corsEnabled: true,
+					supportFetchAPI: true,
+					stream: true,
+				},
+			},
+		],
 	},
 	build: {
 		useAsar: true,

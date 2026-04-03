@@ -1471,6 +1471,12 @@ const defaultConfig = {
 		version: "0.1.0",
 		description: "" as string | undefined,
 		urlSchemes: undefined as string[] | undefined,
+		protocols: undefined as
+			| Array<{
+					scheme: string;
+					privileges?: Record<string, boolean>;
+			  }>
+			| undefined,
 	},
 	build: {
 		buildFolder: "build",
@@ -3367,7 +3373,11 @@ Categories=Utility;Application;
 		const buildJsonObj: Record<string, unknown> = {
 			defaultRenderer: platformConfig?.defaultRenderer ?? "native",
 			availableRenderers: bundlesCEF ? ["native", "cef"] : ["native"],
-			runtime: config.runtime ?? {},
+			protocols: config.runtime?.protocols ?? [],
+			runtime: (() => {
+				const { protocols: _p, ...rest } = (config.runtime ?? {}) as Record<string, unknown>;
+				return rest;
+			})(),
 			...(bundlesCEF
 				? { cefVersion: config.build?.cefVersion ?? DEFAULT_CEF_VERSION_STRING }
 				: {}),
